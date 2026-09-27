@@ -1,0 +1,205 @@
+schema: opencode.runtime.plugin-map.v1
+
+principles:
+  - one_plugin_one_owned_job
+  - explicit_records_over_hidden_coupling
+  - fail_loudly_on_missing_required_capability
+  - provenance_records_does_not_judge
+  - research_is_not_runtime_dependency_by_default
+
+plugins:
+  opencode-work:
+    repo: ernanhughes/opencode-work
+    layer: execution
+    maturity: implemented_integration_unverified
+    owns:
+      - work_declarations
+      - versioned_amendments
+      - operation_plans
+      - capability_orchestration
+      - acceptance_process
+    consumes:
+      - evidence
+      - verify
+      - proof
+      - expertise
+      - authority
+      - human
+      - model
+    emits:
+      - work_record
+      - work_run
+      - acceptance_record
+
+  opencode-vfs:
+    repo: ernanhughes/opencode-vfs
+    layer: provenance
+    maturity: implemented_unverified_live
+    owns:
+      - ai_interaction_provenance
+      - git_state_linkage
+      - prompt_response_tool_history
+      - append_only_session_segments
+      - provenance_git_storage
+    consumes:
+      - opencode_events
+      - source_git
+    emits:
+      - provenance_event
+      - session_segment
+
+  project-context:
+    repo: ernanhughes/project-context
+    layer: research
+    maturity: research_programme
+    owns:
+      - context_research
+      - experiments
+      - evidence
+    runtime_dependency: false
+
+  project-context-compiler:
+    repo: ernanhughes/project-context-compiler
+    layer: context
+    maturity: implemented
+    owns:
+      - deterministic_context_compilation
+      - decision_trace
+      - legal_bundle_failure
+    emits:
+      - context_bundle
+      - decision_trace
+      - compile_failure
+
+  project-context-opencode:
+    repo: ernanhughes/project-context-opencode
+    layer: context_adapter
+    maturity: implemented
+    owns:
+      - opencode_context_observation
+      - controlled_context_intervention
+      - reconciliation_trace
+    emits:
+      - opencode_capture
+      - intervention_trace
+
+  project-memory:
+    repo: ernanhughes/project-memory
+    layer: research
+    maturity: experimentally_earned
+    owns:
+      - memory_research
+      - capstone_evidence
+    runtime_dependency: false
+
+  opencode-remembering:
+    repo: ernanhughes/opencode-remembering
+    layer: memory
+    maturity: implemented
+    owns:
+      - durable_project_history
+      - recall_influence_routing
+      - temporal_resolution
+      - frame_and_scope_controls
+      - trust_and_standing
+      - decisive_selection
+      - context_trace
+      - open_loops
+      - explicit_memory_actions
+    emits:
+      - context_trace
+      - memory_action
+      - open_loop_state
+
+  opencode-expertise:
+    repo: ernanhughes/opencode-expertise
+    layer: knowledge
+    maturity: implemented_v0_1
+    owns:
+      - curated_knowledge_search
+      - referenced_expertise_brief
+      - evidence_status_preservation
+    emits:
+      - expertise_brief
+    must_not_own:
+      - final_context_admission
+      - truth_decision
+
+  opencode-radar:
+    repo: ernanhughes/opencode-radar
+    layer: knowledge
+    maturity: design_seed
+    owns:
+      - attention_decision
+      - requested_resolution
+    emits:
+      - radar_decision
+    must_not_own:
+      - transformation
+      - authority
+
+  opencode-relate:
+    repo: ernanhughes/opencode-relate
+    layer: knowledge
+    maturity: design_seed
+    owns:
+      - typed_relationship_observation
+    emits:
+      - relation_observation
+    must_not_own:
+      - truth
+      - authority
+      - retrieval
+
+  opencode-lens:
+    repo: ernanhughes/opencode-lens
+    layer: representation
+    maturity: design_seed
+    owns:
+      - source_linked_representation
+      - preservation_report
+    emits:
+      - representation_artifact
+    must_not_own:
+      - retrieval
+      - memory
+      - authority
+
+  opencode-authority:
+    repo: ernanhughes/opencode-authority
+    layer: permission
+    maturity: design_seed
+    owns:
+      - operation_permission
+      - information_use_permission
+      - authority_receipt
+    emits:
+      - authority_receipt
+    must_not_own:
+      - relevance
+      - representation
+      - epistemic_truth
+
+  opencode-evidence:
+    repo: ernanhughes/opencode-evidence
+    layer: assurance
+    maturity: seed_repo
+    owns:
+      - evidence_capability_boundary
+    note: Detailed public contract not yet documented in repository.
+
+  opencode-verify:
+    repo: ernanhughes/opencode-verify
+    layer: assurance
+    maturity: seed_repo
+    owns:
+      - verification_capability_boundary
+    note: Detailed public contract not yet documented in repository.
+
+  opencode-proof:
+    repo: ernanhughes/opencode-proof
+    layer: assurance
+    maturity: seed_repo
+    owns:
+      - proof_capability_boundary
+    note: Detailed public contract not yet documented in repository.

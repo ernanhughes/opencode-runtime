@@ -1,0 +1,60 @@
+schema: opencode.runtime.profiles.v1
+
+profiles:
+  developer:
+    purpose: AI-assisted software work with orchestration, memory, verification, and provenance.
+    plugins:
+      - opencode-work
+      - opencode-vfs
+      - opencode-remembering
+      - opencode-verify
+
+  research:
+    purpose: Research-heavy work where source lineage, accumulated knowledge, representation, and relationships matter.
+    plugins:
+      - opencode-vfs
+      - opencode-remembering
+      - opencode-expertise
+      - opencode-lens
+      - opencode-relate
+      - opencode-radar
+      - opencode-evidence
+
+  high_assurance:
+    purpose: Work with explicit obligations, evidence, verification, proof, permission, and provenance.
+    plugins:
+      - opencode-work
+      - opencode-vfs
+      - opencode-evidence
+      - opencode-verify
+      - opencode-proof
+      - opencode-authority
+
+  context_lab:
+    purpose: Context observation, deterministic compilation, and controlled intervention.
+    plugins:
+      - project-context-compiler
+      - project-context-opencode
+      - opencode-vfs
+
+  full:
+    purpose: Entire runtime surface for integration testing and architecture work.
+    plugins:
+      - opencode-work
+      - opencode-vfs
+      - opencode-remembering
+      - opencode-expertise
+      - opencode-lens
+      - opencode-relate
+      - opencode-radar
+      - opencode-evidence
+      - opencode-verify
+      - opencode-proof
+      - opencode-authority
+      - project-context-compiler
+      - project-context-opencode
+
+notes:
+  - Profiles express intended composition, not maturity equivalence.
+  - Seed/design plugins may make a profile incomplete until their runtime contracts are implemented.
+  - project-context and project-memory are research repositories and are not installed as runtime plugins.
