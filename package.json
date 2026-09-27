@@ -1,0 +1,10 @@
+{
+  "name": "opencode-runtime",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "bun test",
+    "conformance:spine": "bun conformance/spine-v1/scripts/run.ts"
+  }
+}

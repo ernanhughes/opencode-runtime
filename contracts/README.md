@@ -52,8 +52,14 @@ type ProvenanceRef = {
   event_id?: string
   segment?: string
   source_head?: string
+  source_diff_sha256?: string
 }
 ```
+
+`contracts/provenance.ts` is the executable v1 definition and validator. The
+reference is optional on domain records: it links to VFS state without embedding
+the trace or requiring VFS as a package dependency. Timestamps remain event
+annotations; they are not silently promoted into semantic identity.
 
 ### CapabilityReceipt
 
@@ -106,3 +112,10 @@ Every runtime capability should eventually be able to expose or be wrapped with:
 ## Non-goal
 
 The runtime does not force one universal mega-schema. Domain contracts remain local. Shared contracts exist only where cross-plugin composition genuinely requires them.
+
+## Conformance
+
+`conformance/spine-v1` composes the domain-owned Evidence, Verify, Proof, and
+Work contracts through Work's real adapters. It also tests a fake provenance
+provider seam. This is offline conformance, not a claim of live OpenCode/VFS
+event integration.

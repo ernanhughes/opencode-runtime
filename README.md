@@ -117,4 +117,7 @@ It does **not** own:
 
 ## Status
 
-Architecture seed. The first goal is to make the existing repositories composable and inspectable before adding another capability.
+The architecture now includes an offline conformance spine for Work → Evidence
+→ Verify → Proof → Acceptance plus an optional VFS provenance reference seam.
+Run `bun run conformance:spine`. Live OpenCode/VFS event integration remains
+explicitly unverified.

@@ -1,0 +1,11 @@
+OpenCode Runtime Spine v1
+
+Evidence              PASS
+Verify                PASS
+Proof                 PASS
+Work adapter          PASS
+Acceptance separation PASS
+Provenance contract   PASS
+End-to-end fixture    PASS
+
+RESULT: PASS

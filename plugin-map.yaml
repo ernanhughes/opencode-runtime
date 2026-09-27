@@ -11,7 +11,7 @@ plugins:
   opencode-work:
     repo: ernanhughes/opencode-work
     layer: execution
-    maturity: implemented_integration_unverified
+    maturity: implemented_offline_conformant
     owns:
       - work_declarations
       - versioned_amendments
@@ -183,23 +183,32 @@ plugins:
   opencode-evidence:
     repo: ernanhughes/opencode-evidence
     layer: assurance
-    maturity: seed_repo
+    maturity: implemented_offline
     owns:
-      - evidence_capability_boundary
-    note: Detailed public contract not yet documented in repository.
+      - evidence_records
+      - deterministic_observation_capture
+      - evidence_integrity_and_storage
+    emits:
+      - evidence_record
 
   opencode-verify:
     repo: ernanhughes/opencode-verify
     layer: assurance
-    maturity: seed_repo
+    maturity: implemented_offline
     owns:
-      - verification_capability_boundary
-    note: Detailed public contract not yet documented in repository.
+      - explicit_criterion_evaluation
+      - verification_receipts
+      - three_valued_verification
+    emits:
+      - verification_receipt
 
   opencode-proof:
     repo: ernanhughes/opencode-proof
     layer: assurance
-    maturity: seed_repo
+    maturity: implemented_offline
     owns:
-      - proof_capability_boundary
-    note: Detailed public contract not yet documented in repository.
+      - declared_obligation_assembly
+      - proof_artifacts
+      - structural_replay
+    emits:
+      - proof_artifact
