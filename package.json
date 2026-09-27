@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "bun test",
-    "conformance:spine": "bun conformance/spine-v1/scripts/run.ts"
+    "conformance:spine": "bun conformance/spine-v1/scripts/run.ts",
+    "conformance:provenance": "bun conformance/provenance-spine-v1/run.ts"
   }
 }

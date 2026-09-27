@@ -34,19 +34,24 @@ plugins:
   opencode-vfs:
     repo: ernanhughes/opencode-vfs
     layer: provenance
-    maturity: implemented_unverified_live
+    maturity: implemented_offline_conformant_live_unverified
     owns:
       - ai_interaction_provenance
       - git_state_linkage
       - prompt_response_tool_history
       - append_only_session_segments
       - provenance_git_storage
+      - artifact_reference_registration
+      - caller_declared_causal_edges
+      - bounded_work_and_artifact_history
     consumes:
       - opencode_events
       - source_git
     emits:
       - provenance_event
       - session_segment
+      - artifact_registration
+      - causal_edge_record
 
   project-context:
     repo: ernanhughes/project-context

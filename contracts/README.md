@@ -53,6 +53,7 @@ type ProvenanceRef = {
   segment?: string
   source_head?: string
   source_diff_sha256?: string
+  work_id?: string
 }
 ```
 
@@ -119,3 +120,10 @@ The runtime does not force one universal mega-schema. Domain contracts remain lo
 Work contracts through Work's real adapters. It also tests a fake provenance
 provider seam. This is offline conformance, not a claim of live OpenCode/VFS
 event integration.
+
+### WorkRef and ArtifactRef
+
+VFS v0.2 adds compatible reference-only records for durable Work identity and
+domain artifacts. Artifact meaning and payloads remain owned by their producer;
+VFS records only IDs, schema names, producer identity, and caller-declared
+operational relationships.

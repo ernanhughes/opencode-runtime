@@ -10,6 +10,7 @@ describe("shared references", () => {
       segment: "segments/1.json",
       source_head: "abc123",
       source_diff_sha256: "a".repeat(64),
+      work_id: "wk_example",
     }).ok).toBe(true);
   });
 

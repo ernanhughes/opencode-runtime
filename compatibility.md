@@ -5,7 +5,7 @@ This file is descriptive. It must not promote a repository's maturity beyond wha
 | Repository | Role | Current runtime status |
 |---|---|---|
 | opencode-work | execution / acceptance process | Implemented; offline Evidence → Verify → Proof → Acceptance conformance passes; live integration unverified |
-| opencode-vfs | provenance | Initial implementation; live OpenCode integration still to be exercised |
+| opencode-vfs | provenance | v0.2 offline conformant: v1 events, artifact refs, causal edges, bounded history and Git-safe commits; live OpenCode integration unverified |
 | opencode-remembering | memory runtime | Implemented |
 | opencode-expertise | expertise retrieval | v0.1 implementation exists |
 | opencode-lens | representation | Design seed |
@@ -39,6 +39,7 @@ A repository merely existing in GitHub is not sufficient evidence of runtime com
 Run `bun run conformance:spine` from this repository. The command fails closed
 when a sibling checkout is absent, runs the deterministic checks for Evidence,
 Verify, Proof, and Work, executes accepted and specification-gap fixtures, and
-validates the shared provenance reference. VFS remains
-`implemented_unverified_live`: the suite tests a fake provenance provider seam,
-not the live OpenCode event path.
+validates the shared provenance reference. VFS remains live-unverified.
+`bun run conformance:provenance` exercises real Work, Evidence, Verify, Proof,
+and Acceptance IDs through the VFS ledger without model inference, but not
+through a live OpenCode event path.

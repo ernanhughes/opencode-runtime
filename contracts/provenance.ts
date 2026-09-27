@@ -11,6 +11,7 @@ export type ProvenanceRef = {
   segment?: string;
   source_head?: string;
   source_diff_sha256?: string;
+  work_id?: string;
 };
 
 export type ValidationResult<T> =
@@ -30,7 +31,7 @@ export function validateProvenanceRef(value: unknown): ValidationResult<Provenan
   }
   const ref = value as Record<string, unknown>;
   const allowed = new Set([
-    "project_id", "session_id", "event_id", "segment", "source_head", "source_diff_sha256",
+    "project_id", "session_id", "event_id", "segment", "source_head", "source_diff_sha256", "work_id",
   ]);
   for (const key of Object.keys(ref)) {
     if (!allowed.has(key)) {
@@ -40,7 +41,7 @@ export function validateProvenanceRef(value: unknown): ValidationResult<Provenan
   if (!nonEmpty(ref.project_id) || !nonEmpty(ref.session_id)) {
     return { ok: false, code: "PROVENANCE_MISSING_ID", message: "project_id and session_id are required" };
   }
-  for (const key of ["event_id", "segment", "source_head"] as const) {
+  for (const key of ["event_id", "segment", "source_head", "work_id"] as const) {
     if (ref[key] !== undefined && !nonEmpty(ref[key])) {
       return { ok: false, code: "PROVENANCE_BAD_FIELD", message: `${key} must be a non-empty string` };
     }
