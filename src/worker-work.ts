@@ -1,4 +1,5 @@
-import { resolve } from "node:path"
+import { join, resolve } from "node:path"
+import { existsSync } from "node:fs"
 import { spawnSync } from "node:child_process"
 import { localEvidenceAdapter, localPackageVersion, localProofAdapter, localVerifyAdapter, type ModelProvider } from "../../opencode-work/src/adapters"
 import { CapabilityRegistry } from "../../opencode-work/src/capabilities"
@@ -30,8 +31,9 @@ export class OpenCodeCliModelProvider implements ModelProvider {
   observedModel?: string
   constructor(readonly workspace: string, readonly binary = "opencode") {}
   async callModel(input: { prompt: string; model?: string }): Promise<{ text: string }> {
+    const executable = resolveOpenCodeExecutable(this.binary)
     const args = ["run", "--standalone", "--format", "json", ...(input.model && input.model !== "auto" ? ["--model", input.model] : []), input.prompt]
-    const out = spawnSync(this.binary, args, { cwd: this.workspace, encoding: "utf8", windowsHide: true, timeout: 10 * 60_000, maxBuffer: 16 * 1024 * 1024, stdio: ["ignore", "pipe", "pipe"] })
+    const out = spawnSync(executable, args, { cwd: this.workspace, encoding: "utf8", windowsHide: true, timeout: 10 * 60_000, maxBuffer: 16 * 1024 * 1024, stdio: ["ignore", "pipe", "pipe"] })
     if ((out.status ?? 1) !== 0) throw new Error(`OPENCODE_UNAVAILABLE: ${out.stderr || out.error || `exit ${out.status}`}`)
     const text: string[] = []
     for (const line of String(out.stdout ?? "").split(/\r?\n/)) {
@@ -47,6 +49,14 @@ export class OpenCodeCliModelProvider implements ModelProvider {
     }
     return { text: text.join("\n") }
   }
+}
+
+function resolveOpenCodeExecutable(binary: string): string {
+  if (process.platform !== "win32" || binary.toLowerCase() !== "opencode") return binary
+  const appData = process.env.APPDATA
+  if (!appData) return binary
+  const executable = join(appData, "npm", "node_modules", "@opencode", "cli", "bin", "opencode.exe")
+  return existsSync(executable) ? executable : binary
 }
 
 function registry(): CapabilityRegistry {
