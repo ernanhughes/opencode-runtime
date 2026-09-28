@@ -25,6 +25,7 @@ export type RuntimeWorkResult = {
   artifacts: Array<{ id: string; schema: string; kind: string }>
   provenance: { project_id: string; work_id: string; ledger_dir: string; edge_record_ids: string[] }
   model?: { requested?: string; observed?: string }
+  model_execution?: unknown
 }
 
 export class OpenCodeCliModelProvider implements ModelProvider {
@@ -81,7 +82,8 @@ export async function executeWorkerWork(input: RuntimeWorkInput, provider?: Mode
   const declaration = declared.declaration as unknown as Record<string, unknown>
   const workID = String(declaration.work_id)
   const run = await engine.run(workID) as unknown as Record<string, unknown>
-  if (run.state === "BLOCKED") return { declaration, run, status: "BLOCKED", artifacts: [], provenance: { project_id: input.projectID, work_id: workID, ledger_dir: input.ledgerDir, edge_record_ids: [] } }
+  const modelProvider = provider as (ModelProvider & { observedModel?: string; lastResult?: unknown }) | undefined
+  if (run.state === "BLOCKED") return { declaration, run, status: "BLOCKED", artifacts: [], provenance: { project_id: input.projectID, work_id: workID, ledger_dir: input.ledgerDir, edge_record_ids: [] }, ...(modelProvider?.lastResult ? { model_execution: modelProvider.lastResult } : {}), ...(input.model || modelProvider?.observedModel ? { model: { ...(input.model ? { requested: input.model } : {}), ...(modelProvider?.observedModel ? { observed: modelProvider.observedModel } : {}) } } : {}) }
   const acceptance = await engine.accept(workID) as unknown as Record<string, unknown>
   const source = new GitRepo(projectDir).describeSource()
   const ledger = new ProvenanceLedger(resolve(input.ledgerDir), input.projectID)
@@ -125,5 +127,5 @@ export async function executeWorkerWork(input: RuntimeWorkInput, provider?: Mode
       if (proofRef) record(proofRef, "ACCEPTED_BY", acceptanceRef)
     }
   }
-  return { declaration, run, acceptance, status: acceptance.outcome as "ACCEPTED" | "REJECTED", artifacts, provenance: { project_id: input.projectID, work_id: workID, ledger_dir: resolve(input.ledgerDir), edge_record_ids: edgeRecordIDs }, ...(input.model ? { model: { requested: input.model, ...((provider as OpenCodeCliModelProvider | undefined)?.observedModel ? { observed: (provider as OpenCodeCliModelProvider).observedModel } : {}) } } : {}) }
+  return { declaration, run, acceptance, status: acceptance.outcome as "ACCEPTED" | "REJECTED", artifacts, provenance: { project_id: input.projectID, work_id: workID, ledger_dir: resolve(input.ledgerDir), edge_record_ids: edgeRecordIDs }, ...(modelProvider?.lastResult ? { model_execution: modelProvider.lastResult } : {}), ...(input.model || modelProvider?.observedModel ? { model: { ...(input.model ? { requested: input.model } : {}), ...(modelProvider?.observedModel ? { observed: modelProvider.observedModel } : {}) } } : {}) }
 }
