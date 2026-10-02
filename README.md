@@ -121,3 +121,9 @@ The architecture now includes an offline conformance spine for Work → Evidence
 → Verify → Proof → Acceptance plus an optional VFS provenance reference seam.
 Run `bun run conformance:spine`. Live OpenCode/VFS event integration remains
 explicitly unverified.
+
+The [native OpenCode acceptance harness](conformance/native-opencode-v1/README.md)
+now observes the actual 2.0.22 agent loop and Code Mode tool path using a scripted
+loopback generation fixture. Its stage receipts separate admission, permissions,
+callbacks, effects, session results and hooks. It performs no model inference and
+does not establish Writer integration or full release readiness.

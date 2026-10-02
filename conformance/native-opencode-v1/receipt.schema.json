@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "opencode.native_acceptance.v1",
+  "type": "object",
+  "required": ["schema", "run_id", "runtime_version", "proposal_source", "model_inference_calls", "scripted_transport_requests", "claims_excluded", "receipts"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": {"const": "opencode.native_acceptance.v1"},
+    "run_id": {"type": "string", "minLength": 1},
+    "runtime_version": {"const": "2.0.22"},
+    "proposal_source": {"const": "scripted_loopback_chat_fixture"},
+    "model_inference_calls": {"const": 0},
+    "scripted_transport_requests": {"type": "integer", "minimum": 0},
+    "claims_excluded": {"type": "array", "items": {"type": "string"}},
+    "receipts": {"type": "array", "items": {"$ref": "#/$defs/receipt"}}
+  },
+  "$defs": {
+    "status": {"enum": ["PASS", "FAIL", "UNKNOWN", "NOT_APPLICABLE"]},
+    "receipt": {
+      "type": "object",
+      "required": ["case", "provider", "tool", "session_id", "stages", "overall", "expected", "expected_rejection_observed", "permission_decisions", "result_checks", "effect_checks", "exact_callback_result_in_session", "evidence"],
+      "additionalProperties": false,
+      "properties": {
+        "case": {"type": "string"}, "provider": {"type": "string"}, "tool": {"type": "string"}, "session_id": {"type": "string"},
+        "stages": {"type": "object", "required": ["PLUGIN_LOADED", "INTERFACE_DISCOVERED", "NATIVE_REQUEST_PROPOSED", "NATIVE_ADMISSION_OBSERVED", "PERMISSION_DECISION_OBSERVED", "CALLBACK_ENTERED", "EFFECT_OBSERVED", "RESULT_RETURNED", "HOOK_OBSERVED"], "properties": {"PLUGIN_LOADED": {"$ref": "#/$defs/status"}, "INTERFACE_DISCOVERED": {"$ref": "#/$defs/status"}, "NATIVE_REQUEST_PROPOSED": {"$ref": "#/$defs/status"}, "NATIVE_ADMISSION_OBSERVED": {"$ref": "#/$defs/status"}, "PERMISSION_DECISION_OBSERVED": {"$ref": "#/$defs/status"}, "CALLBACK_ENTERED": {"$ref": "#/$defs/status"}, "EFFECT_OBSERVED": {"$ref": "#/$defs/status"}, "RESULT_RETURNED": {"$ref": "#/$defs/status"}, "HOOK_OBSERVED": {"$ref": "#/$defs/status"}}, "additionalProperties": false},
+        "overall": {"enum": ["PASS", "FAIL", "BLOCKED_ENVIRONMENT", "BLOCKED_MODEL", "BLOCKED_PERMISSION", "NOT_APPLICABLE", "UNKNOWN"]},
+        "expected": {"type": "string"}, "expected_rejection_observed": {"type": "boolean"},
+        "permission_decisions": {"type": "array", "items": {"type": "object"}},
+        "result_checks": {"type": "object", "additionalProperties": {"type": "boolean"}},
+        "effect_checks": {"type": "object", "additionalProperties": {"type": "boolean"}},
+        "exact_callback_result_in_session": {"type": "boolean"}, "evidence": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}
