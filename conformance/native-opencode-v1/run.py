@@ -114,7 +114,14 @@ def main():
             if len(active)==len(names)+1:break
             time.sleep(.2)
         else:raise RuntimeError('plugins did not all activate')
-        request('inventory','POST','/api/rpc/native-acceptance-v1/inventory',{'input':{}})
+        inventory=request('inventory','POST','/api/rpc/native-acceptance-v1/inventory',{'input':{}})
+        # Respect actual registered availability. A caller's explicit mode still
+        # wins, including deliberate unavailable-Code-Mode rejection probes.
+        tools={t['id']:t for t in inventory['body']['output']['tools']}
+        for case in cases:
+            if 'direct' not in case and (tools.get(case['tool'],{}).get('options') or {}).get('codemode') is False:
+                case['direct']=True
+                case['transport_selection']='registered codemode:false'
         receipts=[]
         results={}
         def resolve(value):

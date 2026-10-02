@@ -9,7 +9,10 @@ The loopback Chat Completions endpoint emits caller-declared tool proposals.
 It performs **zero model inference**. The runtime uses its shipped
 `@opencode/ai/providers/openai-compatible` driver. Most unpinned plugin tools
 are called by native `execute` with `tools["exact_registered_id"](input)`.
-The inventory RPC is read-only. There is no callback-dispatch RPC.
+The inventory RPC is read-only. There is no callback-dispatch RPC. When a case
+does not explicitly choose its mode, the runner honors the registered
+`options.codemode:false` and proposes that exact tool directly. Explicit case
+mode choices are preserved, including negative unavailable-mode probes.
 
 Prerequisites: Python 3.10+, Bun for repository tests, installed provider
 dependencies, and an existing exact `@opencode/cli@2.0.22` binary. No global
